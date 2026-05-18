@@ -18,8 +18,9 @@ app.get('/', (req, res) => {
 });
 
 // 3. API 라우터 연결
-app.use('/api/analyze', require('./routes/analyze'));
-app.use('/api/history', require('./routes/history'));
+// Vercel 환경에서 req.url이 /analyze 등 prefix가 잘린 형태로 들어올 수 있으므로 두 경로 모두 처리
+app.use(['/api/analyze', '/analyze'], require('./routes/analyze'));
+app.use(['/api/history', '/history'], require('./routes/history'));
 
 // 로컬 환경에서 직접 실행 시에만 포트 리슨 (Vercel에서는 제외)
 if (require.main === module) {
