@@ -21,7 +21,7 @@ begin
     pgp_sym_encrypt(p_reason, p_enc_key)
   );
 end;
-$$ language plpgsql security definer;
+$$ language plpgsql security definer set search_path = public, extensions;
 
 -- 2. 복호화 조회 함수 (get_sentiment_history_decrypted)
 create or replace function public.get_sentiment_history_decrypted(
@@ -48,4 +48,4 @@ begin
   where l.user_id = auth.uid()
   order by l.created_at desc;
 end;
-$$ language plpgsql security definer;
+$$ language plpgsql security definer set search_path = public, extensions;

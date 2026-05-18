@@ -21,6 +21,12 @@ app.get('/', (req, res) => {
 app.use('/api/analyze', require('./routes/analyze'));
 app.use('/api/history', require('./routes/history'));
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+// 로컬 환경에서 직접 실행 시에만 포트 리슨 (Vercel에서는 제외)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
+
+// Vercel 배포를 위한 모듈 내보내기
+module.exports = app;

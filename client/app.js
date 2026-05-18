@@ -1,7 +1,7 @@
 // client/app.js
 // 1. Supabase 접속 정보 및 클라이언트 초기화
 const SUPABASE_URL = 'https://kddrukxtbnoezbiasqvn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdWJpbi0xMjMwLW5vZXJiaWFzcXZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczNDMzNDUsImV4cCI6MjA2MjkxOTM0NX0.0y7-h_8_Lp0X_6G0Z5qQ-v_5z99t0SjQ9XUv5_5W1Q4';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtkZHJ1a3h0Ym5vZXpiaWFzcXZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDAzNjAsImV4cCI6MjA5NDMxNjM2MH0.xDE_kl2FIWTvb65uR0rkzdvjQd9qE4WnGpiBmFt9900';
 
 // 변수명 충돌 방지를 위해 supabase -> sbClient로 변경
 let sbClient = null;
@@ -61,7 +61,7 @@ function showToast(message, duration = 3000) {
   toast.className = 'toast';
   toast.textContent = message;
   elToastContainer.appendChild(toast);
-  
+
   setTimeout(() => {
     toast.style.opacity = '0';
     setTimeout(() => toast.remove(), 300);
@@ -82,7 +82,7 @@ function toggleScreens(isLoggedIn) {
 // 4. 모드 전환 로직
 elAuthToggleBtn.addEventListener('click', () => {
   isSignUpMode = !isSignUpMode;
-  
+
   if (isSignUpMode) {
     elAuthTitle.textContent = '회원가입';
     elAuthSubmitBtn.textContent = '가입하기';
@@ -131,29 +131,29 @@ elAuthForm.addEventListener('submit', async (e) => {
 
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  
+
   elAuthError.textContent = '';
   setLoading(true);
 
   try {
     if (isSignUpMode) {
       // 회원가입
-      const { data, error } = await sbClient.auth.signUp({ 
-        email, 
+      const { data, error } = await sbClient.auth.signUp({
+        email,
         password,
         options: {
-          data: { full_name: email.split('@')[0] } 
+          data: { full_name: email.split('@')[0] }
         }
       });
       if (error) throw error;
-      
+
       showToast('회원가입 성공! 이메일 인증을 확인하거나 로그인해 주세요.');
       isSignUpMode = false;
       elAuthToggleBtn.click();
     } else {
       // 로그인
       const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
-      
+
       if (error) {
         // 회원 정보가 없는 경우 등 에러 처리 강화
         if (error.status === 400) {
@@ -201,7 +201,7 @@ async function loadHistory() {
   try {
     const response = await fetch(`/api/history/${currentUser.id}`);
     const data = await response.json();
-    
+
     if (data.success) {
       elHistoryList.innerHTML = '';
       data.history.forEach(item => {
@@ -228,7 +228,7 @@ elAnalyzeBtn.addEventListener('click', async () => {
     elAnalyzeError.textContent = '분석할 내용을 입력해 주세요.';
     return;
   }
-  
+
   if (!currentUser) {
     showToast('로그인이 필요합니다.');
     return;
@@ -243,9 +243,9 @@ elAnalyzeBtn.addEventListener('click', async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, userId: currentUser.id })
     });
-    
+
     const data = await response.json();
-    
+
     if (data.success) {
       showResultModal(data.result);
       addHistoryItem(text, data.result);
@@ -277,13 +277,13 @@ function showResultModal(result) {
 function addHistoryItem(text, result) {
   const card = document.createElement('div');
   card.className = 'category-card';
-  
+
   if (result.sentiment === '긍정') card.classList.add('positive');
   else if (result.sentiment === '부정') card.classList.add('negative');
   else card.classList.add('neutral');
-  
+
   const timeStr = result.created_at ? new Date(result.created_at).toLocaleString() : new Date().toLocaleTimeString();
-  
+
   card.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
       <span class="eyebrow" style="color: inherit; opacity: 0.8; font-size: 12px;">감정 분석 인사이트</span>

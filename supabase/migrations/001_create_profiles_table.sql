@@ -48,7 +48,7 @@ begin
   );
   return new;
 end;
-$$ language plpgsql security definer;
+$$ language plpgsql security definer set search_path = public, extensions;
 
 -- 6. 트리거 설정
 create trigger on_auth_user_created

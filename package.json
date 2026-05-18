@@ -4,6 +4,7 @@
   "description": "본 폴더는 Antigravity 로 열어서 사용하는 **학생용 실습 워크스페이스**입니다. Supabase 기반 데이터베이스 관리(마이그레이션·RLS·암호화) 가 학습의 중심입니다.",
   "main": "index.js",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.96.0",
     "@supabase/supabase-js": "^2.105.4",
     "accepts": "^2.0.0",
     "body-parser": "^2.2.2",
@@ -53,7 +54,6 @@
     "object-inspect": "^1.13.4",
     "on-finished": "^2.4.1",
     "once": "^1.4.0",
-    "openai": "^6.37.0",
     "parseurl": "^1.3.3",
     "path-to-regexp": "^8.4.2",
     "proxy-addr": "^2.0.7",
