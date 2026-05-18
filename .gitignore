@@ -1,0 +1,18 @@
+# 비밀값 보호 (AGENTS.md §8.2, prd/04 §6.2)
+.env
+.env.local
+.env.*.local
+
+# 의존성·빌드 산출물
+node_modules/
+dist/
+build/
+
+# OS·에디터 메타파일
+.DS_Store
+Thumbs.db
+*.log
+
+# Antigravity / 일반 에디터 사용자 설정
+.vscode/
+.idea/
